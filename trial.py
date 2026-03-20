@@ -37,7 +37,7 @@ val_intersec = val.groupby(['race', 'gender']).size()
 print(val_intersec)
 print(val_intersec/ len(val) * 100)
 
-#visualising the gender and race into bar chart
+#visualising the race distribution by gender into bar chart
 plot = train_intersec.reset_index(name ='count')
 plt.figure(figsize= (12,6))
 sns.barplot(data = plot, x ='race', y='count', hue = 'gender')
