@@ -1,8 +1,9 @@
 import torch
 from torchvision import transforms
-from torch.utils.data import Dataset
+from torch.utils.data import Dataset, DataLoader
 from PIL import Image
 import os
+from trial import val, train
 
 
 mean = [0.485, 0.456, 0.406]
@@ -40,8 +41,14 @@ class FairFace(Dataset):
         if self.transform:
             image = self.transform(image)
         
-        return image, label
+        race = self.df.loc[idx, 'race']
+        
+        return image, label, race
     
-
+train_dataset = FairFace(train, "dataset", transform= train_set)
+val_dataset = FairFace(val, "dataset", transform= val_set)
+    
+train_loader = DataLoader(train_dataset, batch_size=32, shuffle = True)
+val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False)
 
 
