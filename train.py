@@ -23,5 +23,32 @@ def train_model(model, train_loader, val_loader, epochs):
     print(f"Epoch [{epoch+1}/ {epochs}] Loss: {avg_loss: .4f}")
 
 
+def test_model(model, loader):
+    model.eval()
+
+    all_preds = []
+    all_labels = []
+    all_races = []
+
+    with torch.no_grad():
+        for images, labels, races in loader:
+            images = images.to(device)
+            labels = labels.to(device)
+
+            outputs = model(images)
+            _, predicted = torch.max(outputs, 1)
+
+            all_preds.extend(predicted.cpu().numpy())
+            all_labels.extend(labels.cpu().numpy())
+            all_races.extend(races)
+
+    return all_preds, all_labels, all_races
+
+
+
+
+
+
+
 
 
