@@ -4,8 +4,9 @@ from resnet import device, criterion, optimizer, model
 
 
 def train_model(model, train_loader, epochs):
-    model.train()
-    total_loss = 0
+    for epoch in range(epochs):
+        model.train()
+        total_loss = 0
 
     for images, labels, races in train_loader:
         images = images.to(device)
