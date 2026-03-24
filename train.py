@@ -1,25 +1,25 @@
 import os
 import torch
-from resnet import device, criterion, optimiser, model
+from resnet import device, criterion, optimizer, model
 
 
-def train_model(model, train_loader, val_loader, epochs):
+def train_model(model, train_loader, epochs):
     model.train()
     total_loss = 0
 
-    for images, labels in train_loader:
+    for images, labels, races in train_loader:
         images = images.to(device)
         labels = labels.to(device)
 
-        optimiser.zero_grad()
+        optimizer.zero_grad()
         outputs = model(images)
         loss = criterion(outputs, labels)
         loss.backward()
-        optimiser.step()
+        optimizer.step()
     
         total_loss += loss.item()
     
-    avg_loss = running_loss / len(train_loader)
+    avg_loss = total_loss / len(train_loader)
     print(f"Epoch [{epoch+1}/ {epochs}] Loss: {avg_loss: .4f}")
 
 
