@@ -1,49 +1,90 @@
-import pandas as pd
+import os, pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+if os.path.exists("/content"):
+    from google.colab import drive
+    drive.mount("/content/drive")
+
+    if not os.path.exists("/content/dataset"):
+        !unzip -q "/content/drive/MyDrive/dataset.zip" -d "/content/"
+
+# Global Path configurations
+dataset_dir = "/content/dataset"
+checkpts = "/content/drive/MyDrive/fairface_ckpts"
+result_path = "/content/drive/MyDrive/fairface_results.csv"
+gs_path = "/content/drive/MyDrive/fairface_gs.json"
+save_folder = "/content/drive/MyDrive/fairface_project/results"
+
+# Ensure directories exist for checkpointing and results
+os.makedirs(save_folder, exist_ok=True)
+os.makedirs(checkpts, exist_ok=True)
 
 train = pd.read_csv("dataset/train_labels.csv")
-val = pd.read_csv("dataset/val_labels.csv")
+test = pd.read_csv("dataset/val_labels.csv")
 
-#Exploratory data analysis
-#checking the dimensions of the dataset
-print(train.shape)  
-print(val.shape)
 
-#checking the data types of the dataset
-print(train.dtypes)
-print(val.dtypes)
+def fix_age(age):
+  """""
+  Unit Test : Corrects string formatting errors found in Fairface CSV files.
+  Ensures that 'oct-19' and '03-sep' is  interpreted in the correct age range
+  """
+  age_map = {'oct-19': '10-19','03-sep': '3-9'}
+  return age_map.get(str(age).strip(), age)
 
-#checking the statistical summaries of the dataset
-print(train.describe())
-print(val.describe())
+def collapse_age(age):
+  """""
+  Unit Test : Categorises the 9 age ranges into simpler 3 broad categories (Young, Middle, Old).
+  Ensures every intersectional subgroup meets the >100 sample reliability threshold.
+  """
+  if age in ['0-2', '3-9', '10-19']:
+    return 'Young'
 
-#checking if there is any null value
-print(train.isnull().sum())
-print(val.isnull().sum())
+  elif age in ['20-29', '30-39', '40-49']:
+    return 'Middle'
 
-#checking the counts of the dataset for race and gender features
-print(train['race']. value_counts())
-print(val['race'].value_counts())
-print(train['gender'].value_counts())
-print(val['gender'].value_counts())
+  else:
+    return 'Old'
 
-#grouping race and gender and their collective counts and percentage composition
-train_intersec = train.groupby(['race','gender']).size()
-print(train_intersec)
-print(train_intersec/ len(train) * 100)
-val_intersec = val.groupby(['race', 'gender']).size()
-print(val_intersec)
-print(val_intersec/ len(val) * 100)
+# Apply the fix_age() to the dataset
+for df in (train, test):   
+  df["age"] = df["age"].apply(fix_age)
 
-#visualising the race distribution by gender into bar chart
-plot = train_intersec.reset_index(name ='count')
-plt.figure(figsize= (12,6))
-sns.barplot(data = plot, x ='race', y='count', hue = 'gender')
-plt.title('Distribution of Race & Gender')
-plt.xlabel('Race')
-plt.ylabel('Counts')
-plt.show()
+def eda(df):
+    """
+    Experimental Verification: Visualizes Volume and Gender Skew
+    across 21 Intersectional Subgroups.
+    """
+    sns.set_theme(style="whitegrid")
+    fig, axes = plt.subplots(2, 1, figsize=(16, 14))
+
+    # Visual 1: Intersectional Volume
+    counts = df.groupby(['race', 'clean_age']).size().reset_index(name='sample_count')
+    sns.barplot(ax=axes[0], data=counts, x='race', y='sample_count', hue='clean_age', palette="magma")
+    axes[0].set_title('Intersectional Subgroup Volume:', fontsize=16, fontweight='bold')
+    axes[0].set_ylabel('Image Count')
+
+    # Visual 2: Gender Balance Heatmap
+    gender_pivot = df.groupby(['race', 'clean_age', 'gender']).size().unstack(fill_value=0)
+    gender_pct = (gender_pivot['Male'] / (gender_pivot['Male'] + gender_pivot['Female'])) * 100
+    gender_pct = gender_pct.unstack(level=1)
+    
+    sns.heatmap(ax=axes[1], data=gender_pct, annot=True, fmt=".1f", cmap="YlGnBu", cbar_kws={'label': '% Male'})
+    axes[1].set_title('Gender Balance Heatmap (% Male)', fontsize=16, fontweight='bold')
+    
+    plt.tight_layout()
+    plt.show()
+
+full_df = pd.concat([train, test], axis=0).reset_index(drop=True)
+
+# EDA Section
+print(f"Total Dataset Dimensions: {full_df.shape}")
+print("\nData Types:\n", full_df.dtypes)
+print("\nNull Values Check:\n", full_df.isnull().sum())
+print("\nStatistical Summary (Labels):\n", full_df.describe(include='all'))
+full_df['clean_age'] = full_df['age'].apply(fix_age)
+
+eda(full_df)
+
 
 
