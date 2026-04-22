@@ -2,7 +2,7 @@ import os, pandas as pd
 import numpy as np
 from gridsearch import best_hparams
 from train import main_training
-from paths import result_path, save_folder
+from src.paths import result_path, save_folder
 from gridsearch import optimizers, eval_seeds
 from checkpoints import append_result_to_csv
 
@@ -82,4 +82,4 @@ def exp_opt():
         print("Experimentation completed.")
 
 if __name__ == "__main__":
-    exp_opt
+    exp_opt()
