@@ -4,8 +4,8 @@ import numpy as np
 import random, os, torch
 import pandas as pd
 from optimizer import build_optimizer, get_swats_phase
-from data import data_loaders
-from resnet import device, ResNet18
+from data import data_loaders, device
+from resnet import ResNet18
 from checkpoints import load_checkpoint, save_checkpoint
 from sklearn.metrics import accuracy_score
 from metrics import compute_all_metrics
