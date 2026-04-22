@@ -1,4 +1,6 @@
 import numpy as np
+import matplotlib.pyplot as plt
+
 from src.trial import fix_age, collapse_age
 from src.metrics import ece_score, compute_all_metrics 
 def run_unit_tests():
@@ -48,3 +50,49 @@ def run_unit_tests():
     print(f"Calculated Accuracy Gap: {metrics['Accuracy_Gap']:.2f}")
     assert metrics['Worst_Accuracy'] == 0.6
     print("Fairness metric calculation logic verified.\n")
+
+def audit_dataset(dataset, num_samples=5):
+    plt.figure(figsize=(20, 10))
+
+    # Select random indices across the dataset
+    indices = np.random.choice(len(dataset), num_samples, replace=False)
+
+    # ImageNet normalization constants for reversal
+    mean = np.array([0.485, 0.456, 0.406])
+    std = np.array([0.229, 0.224, 0.225])
+
+    for i, idx in enumerate(indices):
+        # Access data via the Dataset __getitem__
+        image, label, race, age_group = dataset[idx]
+
+        # Access data via the Dataframe .iloc
+        raw_row = dataset.df.iloc[idx]
+        df_race = raw_row['race']
+        df_gender = raw_row['gender']
+        df_age_raw = raw_row['age']
+        df_filename = raw_row['file']
+
+        # Prepare Image for Display
+        img_display = image.numpy().transpose((1, 2, 0))
+        img_display = np.clip(img_display * std + mean, 0, 1)
+
+        # Visualization and Title Construction
+        plt.subplot(1, num_samples, i + 1)
+        plt.imshow(img_display)
+
+        # Display both the DF source and the Mapped output to ensure consistency
+        title = (
+            f"Index: {idx}\n"
+            f"File: {df_filename.split('/')[-1]}\n"
+            f"Race: {df_race}\n"
+            f"Gender: {df_gender}\n"
+            f"Age (Raw): {df_age_raw}\n"
+            f"Age (Mapped): {age_group}"
+        )
+
+        plt.title(title, fontsize=10, loc='left', fontweight='bold')
+        plt.axis('off')
+
+    plt.suptitle("Unit Test: Final Intersectional Label & Index Verification", fontsize=16, y=0.98)
+    plt.tight_layout()
+    plt.show()
