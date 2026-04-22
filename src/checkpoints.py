@@ -1,8 +1,8 @@
 import pandas as pd
 import os, json, torch
-from trial import checkpts
+from trial import checkpts, gs_path
 from data import device
-from trial import gs_path
+
 
 def ckpt_path(tag, seed):
     """

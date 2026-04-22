@@ -5,8 +5,7 @@ from torchvision import transforms
 from torch.utils.data import Dataset, DataLoader
 from PIL import Image
 from sklearn.model_selection import train_test_split
-from src.trial import dataset_dir, train, test
-from src.trial import collapse_age
+from trial import dataset_dir, train, test, collapse_age
 
 for df in (train, test):
   df['age_group'] = df["age"].apply(collapse_age)

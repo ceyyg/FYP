@@ -1,0 +1,9 @@
+torch >= 2.0.0
+torchvision
+torch-optimizer==0.3.0
+pandas
+numpy
+matplotlib
+seaborn
+scikit-learn
+Pillow

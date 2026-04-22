@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from sklearn.metrics import accuracy_score, confusion_matrix, f1_score, precision_score, recall_score
-from data import train, val, test, collapse_age
+from data import train, val, test
 
 for df in (train, val, test):
   df['subgroup'] = df["race"] + "_" + df["age_group"]

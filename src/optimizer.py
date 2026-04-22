@@ -1,6 +1,5 @@
 import torch
 import torch_optimizer as torch_opt
-import random
 
 def build_optimizer(name, model, lr, wd):
     """

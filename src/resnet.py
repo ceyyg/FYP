@@ -1,6 +1,6 @@
 import torch.nn as nn
 from torchvision import models
-import torchvision.models as ResNet18_Weights
+from torchvision.models import ResNet18_Weights
 
 class ResNet18(nn.Module):
   """
