@@ -10,12 +10,17 @@ The core objective of the project is to analyze whether the choice of optimizer 
 * **Fairness Metrics:** Evaluated using calculation of Accuracy, TPR, FPR, and ECE per subgroup.
 
 ---
+## Dataset
+The project utilizes the FairFace dataset, a face image dataste designed to reduce bias in facial analysis algorithms.
+```bash
+Source: https://github.com/dchen236/FairFace 
+```
 
 ## Setup and Installation
 ### Clone the repository
 ```bash
 git clone https://github.com/ceyyg/FYP.git
-cd FYP
+%cd FYP
 ```
 
 ```bash
