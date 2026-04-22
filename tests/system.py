@@ -19,3 +19,6 @@ def run_system_tests():
     print(f"Stochastic Parity: {match}")
     assert match
     print("System reproducibility confirmed.")
+
+if __name__ == "__main__":
+    run_system_tests()

@@ -95,3 +95,6 @@ def audit_dataset(dataset, num_samples=5):
     plt.suptitle("Unit Test: Final Intersectional Label & Index Verification", fontsize=16, y=0.98)
     plt.tight_layout()
     plt.show()
+
+if __name__ == "__main__":
+    run_unit_tests()

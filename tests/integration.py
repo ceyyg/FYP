@@ -3,7 +3,7 @@ from src.resnet import ResNet18
 from src.data import device, data_loaders
 from src.optimizer import build_optimizer
 from src.checkpoints import save_checkpoint, load_checkpoint
-def run_integration_tests_fast():
+def run_integration_tests():
     print("INTEGRATION TESTING: ")
 
     # Checkpoint verification
@@ -26,3 +26,6 @@ def run_integration_tests_fast():
     print(f"[Data] Batch Shape: {img.shape} | Labels Shape: {lbl.shape} | Device: {device}")
     assert img.shape[1:] == (3, 224, 224)
     print(" Data-to-Model interface verified.\n")
+
+if __name__ == "__main__":
+    run_integration_tests()
