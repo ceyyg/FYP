@@ -1,17 +1,7 @@
 import os, pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-
-# Global Path configurations
-dataset_dir = "/content/dataset"
-checkpts = "/content/drive/MyDrive/fairface_ckpts"
-result_path = "/content/drive/MyDrive/fairface_results.csv"
-gs_path = "/content/drive/MyDrive/fairface_gs.json"
-save_folder = "/content/drive/MyDrive/fairface_project/results"
-
-# Ensure directories exist for checkpointing and results
-os.makedirs(save_folder, exist_ok=True)
-os.makedirs(checkpts, exist_ok=True)
+from paths import dataset_dir
 
 train = pd.read_csv(f"{dataset_dir}/train_labels.csv")
 test = pd.read_csv(f"{dataset_dir}/val_labels.csv")

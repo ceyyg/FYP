@@ -1,6 +1,6 @@
 import pandas as pd
 import os, json, torch
-from trial import checkpts, gs_path
+from paths import checkpts, gs_path
 from data import device
 
 
