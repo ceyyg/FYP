@@ -1,7 +1,7 @@
-import os, pandas as pd
+import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-from src.paths import dataset_dir
+from paths import dataset_dir
 
 train = pd.read_csv(f"{dataset_dir}/train_labels.csv")
 test = pd.read_csv(f"{dataset_dir}/val_labels.csv")

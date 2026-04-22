@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-
 from src.trial import fix_age, collapse_age
 from src.metrics import ece_score, compute_all_metrics 
 def run_unit_tests():
