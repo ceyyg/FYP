@@ -5,6 +5,7 @@ import random, os, torch
 import pandas as pd
 from optimizer import build_optimizer, get_swats_phase
 from data import data_loaders, device
+from paths import save_folder
 from resnet import ResNet18
 from checkpoints import load_checkpoint, save_checkpoint
 from sklearn.metrics import accuracy_score
