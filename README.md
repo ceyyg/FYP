@@ -11,7 +11,7 @@ The core objective of the project is to analyze whether the choice of optimizer 
 
 ---
 ## Dataset
-The project utilizes the FairFace dataset, a face image dataste designed to reduce bias in facial analysis algorithms.
+The project utilizes the FairFace dataset, a face image dataste designed to reduce bias in facial analysis algorithms available for academic purposes.
 ```bash
 Source: https://github.com/dchen236/FairFace 
 ```
@@ -19,13 +19,13 @@ Source: https://github.com/dchen236/FairFace
 ## Setup and Installation
 ### Clone the repository
 ```bash
-git clone https://github.com/ceyyg/FYP.git
+!git clone https://github.com/ceyyg/FYP.git
 %cd FYP
 ```
 
 ```bash
 ### Install the required dependencies
-pip install -r requirements.txt
+!pip install -r requirements.txt
 ```
 
 ### Dataset preparation
@@ -52,8 +52,8 @@ FYP/
 ├── results/                 # Local results cache
 │   ├── matrices             # Raw confusion matrices
 │   ├── raw_metrics          # Fairness metrics per run
-│    ├── training_logs        # Loss/ Accuracy per epoch
-│    ├── fairface_results.csv # Data Dictionary
+│   ├── training_logs        # Loss/ Accuracy per epoch
+│   ├── fairface_results.csv # Data Dictionary
 ├── tests/
 │   ├── unittest.py          # Testing individual components
 │   ├── integration.py       # Testing the comined components together
@@ -64,13 +64,13 @@ FYP/
 ## Running Experiment
 The file runs all the related grid search, training and evaluation checkpointing every output to saved files in Drive.
 ```bash
-python src/main.py
+!python src/main.py
 ```
 
 ## Evaluation Subgroup
 The model evaluates fairness across 21 intersections for the gender prediction task, including:
 Race: White, Black, Indian, East Asian, Southeast Asian, Middle Eastern, Latino_Hispanic.
-Age Brackets: Young (0-29), Middle (30-59), Old (60+).
+Age Brackets: Young, Middle and Young
 
 Gender: Male, Female.
 ## Output files
@@ -89,13 +89,6 @@ To ensure mathematical integrity and reproducibility, this project includes a co
 2. **Integration Testing:** Verifies the seamless interaction between the ResNet18 model, the data loaders, and the checkpoint system (ensuring 100% weight persistence).
 3. **System Testing:** Confirms **Stochastic Parity**. By synchronizing random seeds (e.g., Seed 777), the system ensures that all experiments are 100% reproducible across different environments.
 
-### Running Tests
-To execute the validation suite:
-```python
-run_unit_tests()
-run_integration_tests_fast()
-run_system_tests()
-```
 
 The project is for academic purpose as a part of the Final Year Project.
 ### Author: Celina Gurung
