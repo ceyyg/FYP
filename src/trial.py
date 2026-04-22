@@ -28,8 +28,8 @@ save_folder = "/content/drive/MyDrive/fairface_project/results"
 os.makedirs(save_folder, exist_ok=True)
 os.makedirs(checkpts, exist_ok=True)
 
-train = pd.read_csv("dataset_dir/train_labels.csv")
-test = pd.read_csv("dataset_dir/val_labels.csv")
+train = pd.read_csv(f"{dataset_dir}/train_labels.csv")
+test = pd.read_csv(f"{dataset_dir}/val_labels.csv")
 
 
 def fix_age(age):
