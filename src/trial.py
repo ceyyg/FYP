@@ -1,13 +1,21 @@
 import os, pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+import zipfile 
 
 if os.path.exists("/content"):
     from google.colab import drive
     drive.mount("/content/drive")
 
+    # Fixed: Replaced !unzip with Python logic
     if not os.path.exists("/content/dataset"):
-        !unzip -q "/content/drive/MyDrive/dataset.zip" -d "/content/"
+        zip_path = "/content/drive/MyDrive/dataset.zip"
+        if os.path.exists(zip_path):
+            with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+                zip_ref.extractall("/content/")
+            print("Unzip complete.")
+        else:
+            print(f"Warning: {zip_path} not found.")
 
 # Global Path configurations
 dataset_dir = "/content/dataset"
@@ -20,8 +28,8 @@ save_folder = "/content/drive/MyDrive/fairface_project/results"
 os.makedirs(save_folder, exist_ok=True)
 os.makedirs(checkpts, exist_ok=True)
 
-train = pd.read_csv("dataset/train_labels.csv")
-test = pd.read_csv("dataset/val_labels.csv")
+train = pd.read_csv("dataset_dir/train_labels.csv")
+test = pd.read_csv("dataset_dir/val_labels.csv")
 
 
 def fix_age(age):
