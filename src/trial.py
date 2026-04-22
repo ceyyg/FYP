@@ -1,21 +1,6 @@
 import os, pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-import zipfile 
-
-if os.path.exists("/content"):
-    from google.colab import drive
-    drive.mount("/content/drive")
-
-    # Fixed: Replaced !unzip with Python logic
-    if not os.path.exists("/content/dataset"):
-        zip_path = "/content/drive/MyDrive/dataset.zip"
-        if os.path.exists(zip_path):
-            with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-                zip_ref.extractall("/content/")
-            print("Unzip complete.")
-        else:
-            print(f"Warning: {zip_path} not found.")
 
 # Global Path configurations
 dataset_dir = "/content/dataset"
