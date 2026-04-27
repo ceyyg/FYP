@@ -1,4 +1,3 @@
-import torch
 import torch as nn
 import numpy as np
 import random, os, torch
